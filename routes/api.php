@@ -19,7 +19,7 @@ Route::post('/admin/login', [AuthController::class, 'loginAdmin']);
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::group(['prefix' => 'admin'], function () {
+    Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
         Route::get('/users', [UserController::class, 'index']);
     });
 });
