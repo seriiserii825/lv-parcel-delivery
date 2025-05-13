@@ -13,13 +13,23 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = [
-            'name' => 'User',
-            'email' => 'user@gmail.com',
-            'password' => bcrypt('12345678'),
-            'role' => 'user',
+        $users = [
+            [
+                'name' => 'Admin',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'admin',
+            ],
+            [
+                'name' => 'User',
+                'email' => 'user@gmail.com',
+                'password' => bcrypt('12345678'),
+                'role' => 'user',
+            ]
         ];
 
-        User::create($user);
+        foreach ($users as $user) {
+            User::create($user);
+        }
     }
 }
