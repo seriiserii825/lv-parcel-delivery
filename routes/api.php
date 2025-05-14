@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AuthController;
 use Illuminate\Http\Request;
@@ -21,5 +22,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
         Route::get('/users', [UserController::class, 'index']);
+        Route::apiResource('/clients', ClientController::class);
     });
 });
