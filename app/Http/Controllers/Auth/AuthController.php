@@ -3,30 +3,27 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Models\User;
+use App\Services\Auth\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    private $service;
+    public function __construct(AuthService $service)
     {
-        $fields = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6',
-        ]);
-        $fields['password'] = Hash::make($fields['password']);
-        $fields['role'] = 'user';
+        $this->service = $service;
+    }
 
-        $user = User::create($fields);
+    public function register(RegisterRequest $request)
+    {
+        $fields = $request->validated();
+        $service_respone = $this->service->register($fields);
 
-        $token = $user->createToken($request->name)->plainTextToken;
 
-        return response()->json([
-            'user' => $user,
-            'token' => $token,
-        ], 201);
+        return response()->json($service_respone, 201);
     }
     public function login(Request $request)
     {
