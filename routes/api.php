@@ -35,6 +35,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::group(['middleware' => ['admin'], 'prefix' => 'admin'], function () {
         Route::get('/users', [UserController::class, 'index']);
+        Route::post('/upload-image', [UserController::class, 'uploadImage']);
+
         Route::apiResource('/clients', ClientController::class);
     });
 });
